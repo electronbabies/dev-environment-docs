@@ -81,7 +81,7 @@ The configuration for each application is documented in its own page.
 - [[Hyprland]]
 - [[Moonlander]]
 - [[Neovim]]
-- [[tmux]]
+- [[Tmux]]
 - [[Docker]]
 - [[Nextcloud]]
 - [[Browser]]

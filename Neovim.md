@@ -194,5 +194,5 @@ Typical editing session:
 
 - [[Fedora Desktop]]
 - [[Hyprland]]
-- [[tmux]]
+- [[Tmux]]
 - [[Git]]

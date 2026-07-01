@@ -22,7 +22,7 @@ Things I try to optimize for:
 - [[Hyprland]]
 - [[Moonlander]]
 - [[Neovim]]
-- [[tmux]]
+- [[Tmux]]
 - [[Docker]]
 - [[Nextcloud]]
 - [[Android]]

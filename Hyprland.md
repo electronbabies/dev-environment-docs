@@ -267,4 +267,4 @@ See: [TODO → Hyprland](TODO.md#hyprland)
 - [[Moonlander]]
 - [[Neovim]]
 - [[Browser]]
-- [[tmux]]
+- [[Tmux]]
