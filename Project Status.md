@@ -13,7 +13,7 @@
 ## In Progress
 
 - [ ] Browser
-- [ ] tmux
+- [x] tmux
 - [ ] Git
 - [ ] Android
 - [ ] Docker

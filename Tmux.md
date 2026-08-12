@@ -224,21 +224,20 @@ Ctrl+a w
 
 # Typical Project Layout
 
-Session: `ocr-japanese`
+Use one tmux session as the workspace for a project or related group of repositories.
 
-Window 1: Development
-- Neovim
-- Git
-- General shell
+For a multi-repository application such as LangLife, separate major components into clearly named windows. A practical layout is:
 
-Window 2: Server
-- `php artisan serve`
+```text
+Window 1: API
+Window 2: UI
+Window 3: Android
+Window 4: Shell / logs / supporting work
+```
 
-Window 3: Logs
-- `tail -f storage/logs/laravel.log`
+The exact numbering is less important than giving windows useful names. Direct window switching with `Ctrl+a` plus a number is preferred over repeatedly cycling with `n` and `p`.
 
-Window 4: Database
-- `sqlite3`, `mysql`, or `psql`
+For a simpler project, one Neovim window plus supporting shell/server windows may be enough.
 
 ---
 

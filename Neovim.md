@@ -12,12 +12,12 @@ The configuration files are the implementation. This page documents the design d
 
 ## Configuration Files
 
-| File | Purpose |
-|------|---------|
-| `~/.config/nvim/init.lua` | Entry point |
-| `~/.config/nvim/lua/config/` | Core LazyVim configuration |
-| `~/.config/nvim/lua/plugins/` | Plugin configuration |
-| `lazy-lock.json` | Locked plugin versions |
+| File                          | Purpose                    |
+| ----------------------------- | -------------------------- |
+| `~/.config/nvim/init.lua`     | Entry point                |
+| `~/.config/nvim/lua/config/`  | Core LazyVim configuration |
+| `~/.config/nvim/lua/plugins/` | Plugin configuration       |
+| `lazy-lock.json`              | Locked plugin versions     |
 
 ---
 
@@ -76,11 +76,21 @@ Integrated Git support through LazyVim.
 
 ## Custom Keybindings
 
+## Leader Key
+
+Leader: `Space`
+
+Press `Space` and pause to open the LazyVim command menu.
+
 ### Clipboard
 
 | Shortcut    | Purpose                                                                      |
 | ----------- | ---------------------------------------------------------------------------- |
 | `<leader>p` | Paste from the system clipboard below the cursor and automatically re-indent |
+
+When replacing visually selected text, normal `p` replaces the selection but also puts the replaced text into Vim's default register. That can be surprising when repeatedly pasting the same block.
+
+The remaining friction in the current ChatGPT → Neovim workflow is moving code between the browser and editor. Solve that with a keyboard-first clipboard or CLI workflow rather than by changing editors.
 
 ### Editing
 
@@ -117,12 +127,16 @@ Frequently used shortcuts:
 
 Typical editing session:
 
-- Open project.
-- Find files with Telescope.
+- Open the project inside its tmux session.
+- Find files by filename with Telescope instead of browsing a file tree.
 - Navigate between important files with Harpoon.
+- Use text objects and motions for structural edits.
 - Use LSP features while editing.
-- Search with Telescope instead of manually browsing directories.
+- Search project text with Telescope/ripgrep.
+- Keep related application repositories in separate tmux windows when needed.
 - Commit changes with Git.
+
+The Neovim/tmux workflow is now comfortable enough for normal project work. It has not introduced noticeable slowdown compared with the previous JetBrains workflow. The main remaining interruption is browser-to-editor copying and pasting.
 
 ---
 
@@ -142,13 +156,37 @@ Typical editing session:
 
 ### Text Objects
 
-(To be filled in.)
+Text objects are now part of the normal editing workflow.
+
+| Command | Purpose |
+| --- | --- |
+| `ci{` | Change inside curly braces |
+| `ca{` | Change around curly braces |
+| `ci(` | Change inside parentheses |
+| `ci[` | Change inside square brackets |
+| `ci"` | Change inside double quotes |
+| `ci'` | Change inside single quotes |
+| `cit` | Change inside an HTML/XML tag |
+| `cat` | Change around an HTML/XML tag |
+| `dat` | Delete around an HTML/XML tag |
+
+Mental model:
+
+- If the cursor is already inside the object, operate on the object directly.
+- If it is not, navigate to the object first.
+- `%` is useful for jumping between matching delimiters.
+- `$%` is a fast pattern when the end of a line contains the opening delimiter for the block I want.
+
+See also: [[Vim Notes]]
 
 ---
 
 ### Telescope
 
-(To be filled in.)
+- Prefer filename search over manually browsing a file tree.
+- `<leader>fd` finds files.
+- `<leader>fg` searches project text.
+- Neo-tree is available, but it is not the preferred navigation model.
 
 ---
 
@@ -187,6 +225,9 @@ Typical editing session:
 - Two-space indentation.
 - Space is the leader key.
 - Snacks animations are disabled.
+- Prefer searching for files by filename instead of navigating a file tree.
+- Prefer structural Vim edits (`ci{`, `cit`, etc.) over mouse selection.
+- Keep the environment reproducible and document workflow changes as they become permanent.
 
 ---
 

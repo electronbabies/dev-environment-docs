@@ -1,5 +1,9 @@
 # TODO
 
+## AI
+
+- Start using ChatGPT in a CLI.
+- Remove mouse-dependent copying/pasting between ChatGPT and Neovim; prefer a keyboard-first clipboard or CLI workflow.
 ## Browser 
 - Enable Brave Sync for bookmarks and browser settings.
 - Decide whether to sync bookmarks with phone.
