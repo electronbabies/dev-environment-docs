@@ -686,7 +686,7 @@ Useful for quickly scaffolding projects without loops.
 
 # `repos`
 
-Central Git checkpoint for every repository under `~/code`.
+Central Git checkpoint for repositories recursively discovered under `~/code` plus explicitly configured repositories that intentionally live elsewhere.
 
 ```bash
 repos
@@ -705,6 +705,12 @@ repos --help
 ```
 
 Script: `~/code/dotfiles/bin/repos`
+
+Current explicit non-code repository:
+
+```text
+~/Nextcloud/ObsidianVault/Infrastructure
+```
 
 See [[Projects]].
 

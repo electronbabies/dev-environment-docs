@@ -8,7 +8,7 @@ This is not intended to document every Git command. It focuses on commands and w
 
 # Multi-Repository Checkpoint
 
-All maintained projects are centralized under `~/code`.
+`~/code` is the canonical home for development projects. The `repos` checkpoint also includes explicitly configured Git repositories that intentionally live elsewhere, such as the Infrastructure documentation inside the Nextcloud-backed Obsidian vault.
 
 Use `repos` for the fast local checkpoint and `repos --fetch` when remote state must be refreshed first. The command is intentionally read-only.
 

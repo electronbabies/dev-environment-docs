@@ -27,5 +27,6 @@
 
 ## Project Organization
 
-- Keep `~/code` as the canonical project root.
+- Keep `~/code` as the canonical development-project root.
+- Keep intentional non-code Git repositories in semantically appropriate locations and register them in `repos` when they need to participate in the checkpoint.
 - Run `repos` as the central Git checkpoint; use `repos --fetch` when fresh remote state matters.

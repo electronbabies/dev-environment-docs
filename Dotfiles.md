@@ -73,3 +73,16 @@ That directory is on `PATH`.
 Current command: `repos`.
 
 See [[Projects]].
+
+
+## Repository Checkpoint Exceptions
+
+The `repos` script recursively checks `~/code` and also supports explicit repositories that intentionally live elsewhere through its `EXTRA_REPOS` array.
+
+Current exception:
+
+```text
+~/Nextcloud/ObsidianVault/Infrastructure
+```
+
+This keeps filesystem organization based on purpose rather than forcing every Git repository into the development-project tree.
