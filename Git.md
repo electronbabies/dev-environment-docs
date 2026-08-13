@@ -6,6 +6,16 @@ This is not intended to document every Git command. It focuses on commands and w
 
 ---
 
+# Multi-Repository Checkpoint
+
+All maintained projects are centralized under `~/code`.
+
+Use `repos` for the fast local checkpoint and `repos --fetch` when remote state must be refreshed first. The command is intentionally read-only.
+
+Full workflow: [[Projects]]
+
+---
+
 # Mental Model
 
 Git has several important areas to keep straight:

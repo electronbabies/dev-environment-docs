@@ -684,6 +684,32 @@ Useful for quickly scaffolding projects without loops.
 
 ---
 
+# `repos`
+
+Central Git checkpoint for every repository under `~/code`.
+
+```bash
+repos
+```
+
+Fast local check.
+
+```bash
+repos --fetch
+```
+
+Fetch/prune remotes first, then report fresh synchronization state.
+
+```bash
+repos --help
+```
+
+Script: `~/code/dotfiles/bin/repos`
+
+See [[Projects]].
+
+---
+
 # Daily Workflow
 
 Search for text:

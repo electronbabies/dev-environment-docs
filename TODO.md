@@ -1,9 +1,7 @@
 # TODO
 
 ## AI
-
-- Start using ChatGPT in a CLI.
-- Remove mouse-dependent copying/pasting between ChatGPT and Neovim; prefer a keyboard-first clipboard or CLI workflow.
+ - Start using ChatGPT in a CLI
 ## Browser 
 - Enable Brave Sync for bookmarks and browser settings.
 - Decide whether to sync bookmarks with phone.
@@ -26,3 +24,8 @@
 - Move configuration into the dotfiles repository.
 - Document monitor arrangement with screenshots.
 - Add screenshots of the desktop layout.
+
+## Project Organization
+
+- Keep `~/code` as the canonical project root.
+- Run `repos` as the central Git checkpoint; use `repos --fetch` when fresh remote state matters.
