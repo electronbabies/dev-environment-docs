@@ -36,6 +36,22 @@ Example:
 tmux attach -t ocr-japanese
 ```
 
+### Create a grouped session
+
+Create a new session that shares the same windows and panes as an existing session:
+
+```bash
+tmux new-session -t existing-session -s new-session
+```
+
+Example:
+
+```bash
+tmux new-session -t sugacoded -s sugacoded-agent
+```
+
+The sessions share windows and panes, but each client can independently select which window it is viewing. This is useful for working in the same tmux workspace from multiple terminals without both terminals being forced onto the same window.
+
 ### Detach from the current session
 
 ```
@@ -47,6 +63,7 @@ Ctrl+a d
 ```bash
 tmux kill-session -t session-name
 ```
+
 
 ---
 
