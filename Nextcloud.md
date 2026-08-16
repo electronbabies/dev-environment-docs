@@ -26,14 +26,14 @@ The Docker configuration is the implementation. This page documents the architec
 
 The following containers make up the Nextcloud infrastructure.
 
-| Container | Purpose |
-|-----------|---------|
+| Container                       | Purpose                                  |
+| ------------------------------- | ---------------------------------------- |
 | `nextcloud-aio-mastercontainer` | Manages the AIO installation and updates |
-| `nextcloud-aio-apache` | Web server and HTTPS endpoint |
-| `nextcloud-aio-nextcloud` | Main Nextcloud application |
-| `nextcloud-aio-database` | PostgreSQL database |
-| `nextcloud-aio-redis` | Redis cache and file locking |
-| `nextcloud-aio-notify-push` | Push notifications |
+| `nextcloud-aio-apache`          | Web server and HTTPS endpoint            |
+| `nextcloud-aio-nextcloud`       | Main Nextcloud application               |
+| `nextcloud-aio-database`        | PostgreSQL database                      |
+| `nextcloud-aio-redis`           | Redis cache and file locking             |
+| `nextcloud-aio-notify-push`     | Push notifications                       |
 
 All containers should normally report **healthy**.
 
@@ -41,11 +41,11 @@ All containers should normally report **healthy**.
 
 ## Storage Layout
 
-| Host Path | Purpose |
-|-----------|---------|
-| `/mnt/ncdata` | Primary Nextcloud data directory (user files) |
-| `/mnt` | Additional host mount available to the container |
-| Docker Volume: `nextcloud_aio_nextcloud` | Nextcloud application files (`/var/www/html`) |
+| Host Path                                | Purpose                                          |
+| ---------------------------------------- | ------------------------------------------------ |
+| `/mnt/ncdata`                            | Primary Nextcloud data directory (user files)    |
+| `/mnt`                                   | Additional host mount available to the container |
+| Docker Volume: `nextcloud_aio_nextcloud` | Nextcloud application files (`/var/www/html`)    |
 
 ### Notes
 
@@ -57,14 +57,14 @@ All containers should normally report **healthy**.
 
 ## Persistent Docker Volumes
 
-| Volume | Purpose |
-|--------|---------|
-| `nextcloud_aio_mastercontainer` | AIO configuration |
-| `nextcloud_aio_nextcloud` | Nextcloud application |
-| `nextcloud_aio_database` | PostgreSQL database |
-| `nextcloud_aio_database_dump` | Database backups |
-| `nextcloud_aio_redis` | Redis data |
-| `nextcloud_aio_apache` | Apache configuration |
+| Volume                          | Purpose               |
+| ------------------------------- | --------------------- |
+| `nextcloud_aio_mastercontainer` | AIO configuration     |
+| `nextcloud_aio_nextcloud`       | Nextcloud application |
+| `nextcloud_aio_database`        | PostgreSQL database   |
+| `nextcloud_aio_database_dump`   | Database backups      |
+| `nextcloud_aio_redis`           | Redis data            |
+| `nextcloud_aio_apache`          | Apache configuration  |
 
 ---
 
@@ -231,7 +231,4 @@ See: [TODO → Nextcloud](TODO.md#nextcloud)
 
 ## Related
 
-- [[Fedora Desktop]]
-- [[Android]]
-- [[Docker]]
-- [[Server]]
+- [Fedora Desktop](Fedora%20Desktop.md)

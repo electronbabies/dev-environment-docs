@@ -17,22 +17,13 @@ Things I try to optimize for:
 - Documenting anything I'll probably forget.
 ## Contents
 
-- [[Hardware]]
-- [[Fedora Desktop]]
-- [[Hyprland]]
-- [[Moonlander]]
-- [[Neovim]]
-- [[Tmux]]
-- [[Projects]]
-- [[Docker]]
-- [[Nextcloud]]
-- [[Android]]
-- [[FolderSync]]
-- [[Signal]]
-- [[Browser]]
-- [[SSH]]
-- [[Networking]]
-- [[Aliases]]
-- [[Scripts]]
-- [[Workflows]]
-- [[Things Future Gary Will Forget]]
+- [Hardware](Hardware.md)
+- [Fedora Desktop](Fedora%20Desktop.md)
+- [Hyprland](Hyprland.md)
+- [Moonlander](Moonlander.md)
+- [Neovim](Neovim.md)
+- [Tmux](Tmux.md)
+- [Projects](Projects.md)
+- [Nextcloud](Nextcloud.md)
+- [Browser](Browser.md)
+- [SSH Troubleshooting](SSH%20Troubleshooting.md)

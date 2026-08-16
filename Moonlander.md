@@ -53,5 +53,5 @@ The screenshots are the source of truth. This page records anything I might forg
 
 ## Related
 
-- [[Hyprland]]
-- [[Fedora Desktop]]
+- [Hyprland](Hyprland.md)
+- [Fedora Desktop](Fedora%20Desktop.md)

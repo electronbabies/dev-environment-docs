@@ -72,7 +72,7 @@ That directory is on `PATH`.
 
 Current command: `repos`.
 
-See [[Projects]].
+See [Projects](Projects.md).
 
 
 ## Repository Checkpoint Exceptions

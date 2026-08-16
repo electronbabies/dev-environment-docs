@@ -10,8 +10,6 @@ Every utility in this document has earned its place through regular use.
 
 ## Philosophy
 
-The command-line environment follows a few simple principles:
-
 - Learn modern tools instead of hiding them behind aliases.
 - Keep the shell configuration clean and understandable.
 - Install only tools that solve real problems.
@@ -45,8 +43,6 @@ export VISUAL="nvim"
 ---
 
 # Installation
-
-Install the standard CLI toolkit with:
 
 ```bash
 sudo dnf install \
@@ -82,16 +78,6 @@ sudo dnf --refresh install <package>
 
 Modern replacement for `ls`.
 
-Features:
-
-- Better formatting
-- Icons
-- Git status
-- Tree views
-- Improved readability
-
-Examples:
-
 ```bash
 eza
 eza -la
@@ -99,53 +85,25 @@ eza -la --git
 eza --tree --level=2
 ```
 
----
-
 ## wl-clipboard
 
-Provides command-line access to the Wayland clipboard.
+Command-line access to the Wayland clipboard.
 
-The two commands are:
-
-- `wl-copy` — Copy data to the clipboard.
-- `wl-paste` — Paste data from the clipboard.
-
-This is especially useful when piping the output of commands into the clipboard.
-
-Examples:
+- `wl-copy` — copy data to the clipboard
+- `wl-paste` — output clipboard contents
 
 ```bash
-# Copy the output of a command
 ls -la | wl-copy
-
-# Copy the current working directory
 pwd | wl-copy
-
-# Copy a file to the clipboard
 cat ~/.zshrc | wl-copy
-
-# View clipboard contents
 wl-paste
 ```
 
-This utility replaces `xclip` and `xsel` when using Wayland.
-
----
+This replaces `xclip` and `xsel` when using Wayland.
 
 ## bat
 
-Modern file viewer.
-
-Unlike `cat`, `bat` is designed for **reading** files.
-
-Features:
-
-- Syntax highlighting
-- Line numbers
-- Git integration
-- Paging through `less`
-
-Examples:
+Modern file viewer designed for reading files, with syntax highlighting, line numbers, Git integration, and paging through `less`.
 
 ```bash
 bat ~/.zshrc
@@ -155,15 +113,9 @@ bat ~/.config/hypr/hyprland.conf
 
 Use `cat` when streaming or piping file contents.
 
----
-
 ## fd
 
 Modern file finder.
-
-Simpler and faster than `find`.
-
-Examples:
 
 ```bash
 fd docker
@@ -172,15 +124,9 @@ fd toml
 fd zsh
 ```
 
----
-
 ## ripgrep (`rg`)
 
 Fast recursive text search.
-
-Probably the most useful CLI tool for software development.
-
-Examples:
 
 ```bash
 rg TODO
@@ -189,43 +135,21 @@ rg "Nextcloud"
 rg "server_name"
 ```
 
----
-
 ## fzf
 
-Interactive fuzzy finder.
-
-Useful for:
-
-- Command history
-- Files
-- Directories
-- Git branches
-- Search results
-
-Example:
+Interactive fuzzy finder useful for command history, files, directories, Git branches, and search results.
 
 ```bash
 history | fzf
 ```
 
-More shell integration may be added in the future.
-
----
-
 ## zoxide
 
-Smart directory navigation.
-
-Rather than replacing `cd`, `zoxide` quietly learns which directories are used most often.
-
-Initialize in `.zshrc`:
+Smart directory navigation that learns frequently used directories.
 
 ```zsh
 eval "$(zoxide init zsh)"
 ```
-
-Examples:
 
 ```bash
 z projects
@@ -233,95 +157,41 @@ z downloads
 z config
 ```
 
-The more it is used, the smarter it becomes.
-
----
-
 ## btop
 
 Modern terminal system monitor.
-
-Displays:
-
-- CPU usage
-- Memory
-- Network
-- Disk activity
-- Running processes
-
-Example:
 
 ```bash
 btop
 ```
 
----
-
 ## fastfetch
 
-Displays system information.
-
-Useful for quickly viewing:
-
-- Distribution
-- Kernel
-- Desktop environment
-- Shell
-- Hardware
-- Memory
-- Terminal
-
-Example:
+Displays system and environment information.
 
 ```bash
 fastfetch
 ```
 
----
-
 ## jq
 
 Command-line JSON processor.
-
-Useful when working with:
-
-- APIs
-- Docker
-- GitHub
-- Configuration files
-
-Example:
 
 ```bash
 echo '{"name":"Gary","os":"Fedora"}' | jq
 ```
 
----
-
 ## yq
 
-YAML equivalent of `jq`.
-
-Useful for:
-
-- Docker Compose
-- Kubernetes
-- Ansible
-- Configuration files
-
-Example:
+YAML processor.
 
 ```bash
 echo 'name: Gary' | yq
 ```
 
----
-
 ## tree
 
 Displays directory structures visually.
-
-Examples:
 
 ```bash
 tree
@@ -330,50 +200,26 @@ tree -L 3
 tree -L 2 -I node_modules
 ```
 
----
-
 ## curl
 
 Command-line HTTP client.
-
-Useful for:
-
-- APIs
-- Downloads
-- Testing endpoints
-
-Examples:
 
 ```bash
 curl https://example.com
 curl -I https://example.com
 ```
 
----
-
 ## wget
 
 Simple file downloader.
-
-Example:
 
 ```bash
 wget https://example.com/file.zip
 ```
 
----
-
 ## rsync
 
 Efficient file synchronization utility.
-
-Useful for:
-
-- Backups
-- Copying directories
-- Synchronization
-
-Example:
 
 ```bash
 rsync -avh source/ destination/
@@ -381,247 +227,174 @@ rsync -avh source/ destination/
 
 ---
 
-# `sed` Basics
+# Reading and Inspecting Text
 
-`sed` (Stream Editor) is a command-line tool for reading and modifying text streams. It is most commonly used to inspect or edit files directly from the terminal without opening an editor.
+## `less` — Terminal Pager
+
+`less` is a terminal pager used to view text one screen at a time without opening it in an editor.
+
+Many CLI tools automatically send long output through a pager. Git commonly does this for commands such as:
+
+```bash
+git diff
+git log
+git show
+```
+
+When Git output becomes scrollable and pressing `q` returns to the shell, the output is usually being displayed through `less`.
+
+### Navigation
+
+Many `less` navigation commands overlap with Vim.
+
+| Key | Action |
+| --- | --- |
+| `j` / `↓` | Down one line |
+| `k` / `↑` | Up one line |
+| `Space` / `Ctrl-f` | Forward one screen |
+| `b` / `Ctrl-b` | Back one screen |
+| `d` / `Ctrl-d` | Down half a screen |
+| `u` / `Ctrl-u` | Up half a screen |
+| `g` | Beginning |
+| `G` | End |
+| `/text` | Search forward |
+| `?text` | Search backward |
+| `n` | Next search match |
+| `N` | Previous search match |
+| `q` | Quit |
+
+Search forward:
+
+```text
+/error
+```
+
+Search backward:
+
+```text
+?error
+```
+
+Press `n` for the next match and `N` for the previous match.
+
+### Using `less` Directly
+
+```bash
+less filename.txt
+some-command | less
+```
+
+### Git and the Pager
+
+Bypass Git's pager for one command:
+
+```bash
+git --no-pager diff
+```
+
+This is especially useful when the output is intended for another command:
+
+```bash
+git --no-pager diff | wl-copy
+```
+
+A pager can also be disabled for a specific Git command:
+
+```bash
+git config --global pager.diff false
+```
+
+Generally, keeping paging enabled for interactive terminal use and using `--no-pager` when needed is the better default.
 
 ---
 
-#### General Syntax
+## `sed` Basics
 
-```bash
-sed [options] 'command' file
-```
-
-Example:
+`sed` (Stream Editor) can inspect or modify text streams. For quick inspection, it is useful for printing a specific range of lines without opening an editor.
 
 ```bash
 sed -n '1,20p' file.php
-```
-
-Prints lines **1 through 20**.
-
----
-
-#### Understanding the Command
-
-```bash
-sed -n '1,20p' file.php
-```
-
-Breakdown:
-
-| Part       | Meaning                                        |
-| ---------- | ---------------------------------------------- |
-| `sed`      | Run the stream editor                          |
-| `-n`       | Don't print anything unless explicitly told to |
-| `'1,20p'`  | Print (`p`) lines 1 through 20                 |
-| `file.php` | File to read                                   |
-
----
-
-#### Common Options
-
-## `-n`
-
-Suppresses normal output.
-
-Without `-n`, `sed` prints every line by default.
-
-With `-n`, only the lines requested with `p` are printed.
-
----
-
-#### Print a Range of Lines
-
-Print the first 20 lines:
-
-```bash
-sed -n '1,20p' file.php
-```
-
-Print lines 100–150:
-
-```bash
 sed -n '100,150p' file.php
-```
-
-Print lines 250–300:
-
-```bash
 sed -n '250,300p' file.php
 ```
 
-If the file ends before the ending line, `sed` simply stops printing.
+`-n` suppresses normal output and `p` prints the requested lines.
 
----
-
-#### How Do You Know Which Range?
-
-Usually...
-
-You don't.
-
-Most developers simply overshoot.
-
-Example:
+Overshooting the end of a file is harmless:
 
 ```bash
 sed -n '1,200p' ReviewItemResource.php
 ```
 
-If the file only has 72 lines, `sed` prints 72 lines and exits.
-
-No error.
-
----
-
-If you want to know exactly how many lines are in a file:
-
-```bash
-wc -l ReviewItemResource.php
-```
-
-Example output:
-
-```text
-87 ReviewItemResource.php
-```
-
-Now you know the file has 87 lines.
-
----
+If the file contains only 72 lines, `sed` prints those 72 lines and exits.
 
 ## `head`
 
-View the beginning of a file.
-
 ```bash
 head file.php
-```
-
-First 10 lines.
-
-```bash
 head -30 file.php
 ```
 
-First 30 lines.
-
----
-
 ## `tail`
-
-View the end of a file.
 
 ```bash
 tail file.php
-```
-
-Last 10 lines.
-
-```bash
 tail -50 file.php
 ```
 
-Last 50 lines.
-
----
-
 ## `wc`
 
-Count lines.
+Count lines:
 
 ```bash
 wc -l file.php
 ```
 
-Example:
-
-```text
-87 file.php
-```
-
----
-
-## `rg` (ripgrep)
-
-Search a project.
+## Typical Inspection Workflow
 
 ```bash
-rg "ReviewItemResource"
-```
-
-Search for a function:
-
-```bash
-rg "updateReviewItem"
-```
-
----
-
-# Typical Workflow
-
-Rather than immediately opening Vim:
-
-```bash
-# How big is the file?
-wc -l app/Http/Resources/ReviewItemResource.php
-
-# View the beginning
-sed -n '1,120p' app/Http/Resources/ReviewItemResource.php
-
-# Find something interesting
 rg "translation" app/Http/Resources/ReviewItemResource.php
-
-# Inspect just that section
+wc -l app/Http/Resources/ReviewItemResource.php
+sed -n '1,120p' app/Http/Resources/ReviewItemResource.php
 sed -n '40,80p' app/Http/Resources/ReviewItemResource.php
 ```
 
-This lets you answer questions quickly while staying entirely in the terminal.
+The goal is not to memorize every `sed` feature. The goal is to answer questions quickly without leaving the terminal.
+
+### Quick Reference
+
+| Command | Description |
+| --- | --- |
+| `less file` | Page through a file |
+| `sed -n '1,20p' file` | Print lines 1–20 |
+| `sed -n '100,150p' file` | Print lines 100–150 |
+| `head file` | First 10 lines |
+| `head -30 file` | First 30 lines |
+| `tail file` | Last 10 lines |
+| `tail -50 file` | Last 50 lines |
+| `wc -l file` | Count lines |
+| `rg "text"` | Search recursively for text |
 
 ---
 
-# Quick Reference
+# Shell Features
 
-| Command                  | Description                  |
-| ------------------------ | ---------------------------- |
-| `sed -n '1,20p' file`    | Print lines 1–20             |
-| `sed -n '100,150p' file` | Print lines 100–150          |
-| `head file`              | First 10 lines               |
-| `head -30 file`          | First 30 lines               |
-| `tail file`              | Last 10 lines                |
-| `tail -50 file`          | Last 50 lines                |
-| `wc -l file`             | Count the number of lines    |
-| `rg "text"`              | Search for text in a project |
-
----
-
-# Philosophy
-
-The goal isn't to memorize every `sed` feature.
-
-The goal is to answer questions quickly without leaving the terminal.
-
-A common workflow is:
+## Brace Expansion
 
 ```bash
-rg "ReviewItemResource"
-wc -l app/Http/Resources/ReviewItemResource.php
-sed -n '1,200p' app/Http/Resources/ReviewItemResource.php
+mkdir -p app/pages/{capture,review,vocabulary}
+touch {a,b,c}.txt
+touch app/pages/{capture,review,moments}/index.vue
+mv *.{jpg,png} docs/ui/
 ```
 
-This approach is fast, efficient, and becomes second nature once you spend enough time working from the command line.
+Useful for quickly scaffolding projects without loops.
 
 ---
 
 # Aliases
 
 Aliases are intentionally kept to a minimum.
-
-Rather than replacing modern tools with old command names, the goal is to learn the actual commands.
-
-Current aliases:
 
 ```zsh
 alias vim='nvim'
@@ -650,38 +423,6 @@ Intentionally **not** aliased:
 - `top`
 - `cd`
 
-These commands are left separate so the actual tools become second nature.
-
----
-
-## Brace Expansion
-
-Create multiple directories:
-
-```bash
-mkdir -p app/pages/{capture,review,vocabulary}
-```
-
-Create multiple files:
-
-```bash
-touch {a,b,c}.txt
-```
-
-Create multiple index pages:
-
-```bash
-touch app/pages/{capture,review,moments}/index.vue
-```
-
-Expand multiple extensions:
-
-```bash
-mv *.{jpg,png} docs/ui/
-```
-
-Useful for quickly scaffolding projects without loops.
-
 ---
 
 # `repos`
@@ -690,21 +431,15 @@ Central Git checkpoint for repositories recursively discovered under `~/code` pl
 
 ```bash
 repos
-```
-
-Fast local check.
-
-```bash
 repos --fetch
-```
-
-Fetch/prune remotes first, then report fresh synchronization state.
-
-```bash
 repos --help
 ```
 
-Script: `~/code/dotfiles/bin/repos`
+Script:
+
+```text
+~/code/dotfiles/bin/repos
+```
 
 Current explicit non-code repository:
 
@@ -712,81 +447,52 @@ Current explicit non-code repository:
 ~/Nextcloud/ObsidianVault/Infrastructure
 ```
 
-See [[Projects]].
+See [Projects](Projects.md).
 
 ---
 
 # Daily Workflow
 
-Search for text:
-
 ```bash
+# Search
 rg TODO
 rg "Nextcloud"
-```
 
-Find files:
-
-```bash
+# Find files
 fd docker
 fd README
-```
 
-Read configuration files:
-
-```bash
+# Read configuration
 bat ~/.zshrc
-```
 
-Browse directories:
-
-```bash
+# Browse directories
 ll
 lt
-```
 
-Jump between common directories:
-
-```bash
+# Jump between directories
 z projects
 z config
-```
 
-Monitor the system:
-
-```bash
+# Monitor system
 btop
-```
 
-View system information:
-
-```bash
+# System information
 fastfetch
-```
 
-Process JSON:
+# JSON / YAML
+jq '.' data.json
+yq '.' compose.yml
 
-```bash
-cat data.json | jq
-```
-
-Process YAML:
-
-```bash
-cat compose.yml | yq
-```
-
-View a project's directory structure:
-
-```bash
+# Directory structure
 tree -L 2
+
+# Copy a complete Git diff without paging
+git --no-pager diff | wl-copy
 ```
 
 ---
 
 # Maintenance
-
-CLI utilities are updated through Fedora's package manager.
 
 ```bash
 sudo dnf upgrade
@@ -802,12 +508,11 @@ sudo dnf --refresh install <package>
 
 ---
 
-
 # Related Documentation
 
-- [[Fedora Desktop]]
-- [[Neovim]]
-- [[Hyprland]]
-- [[tmux]] 
-- Git *(Coming Soon)* 
-- SSH *(Coming Soon)*
+- [Fedora Desktop](Fedora%20Desktop.md)
+- [Neovim](Neovim.md)
+- [Hyprland](Hyprland.md)
+- [Tmux](Tmux.md)
+- [Git](Git.md)
+- [SSH Troubleshooting](SSH%20Troubleshooting.md)

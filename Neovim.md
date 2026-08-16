@@ -177,7 +177,7 @@ Mental model:
 - `%` is useful for jumping between matching delimiters.
 - `$%` is a fast pattern when the end of a line contains the opening delimiter for the block I want.
 
-See also: [[Vim Notes]]
+See also: [Vim Notes](Vim%20Notes.md)
 
 ---
 
@@ -233,7 +233,7 @@ See also: [[Vim Notes]]
 
 ## Related
 
-- [[Fedora Desktop]]
-- [[Hyprland]]
-- [[Tmux]]
-- [[Git]]
+- [Fedora Desktop](Fedora%20Desktop.md)
+- [Hyprland](Hyprland.md)
+- [Tmux](Tmux.md)
+- [Git](Git.md)

@@ -78,14 +78,12 @@ The focus is on the software, tools, and configuration that make this workstatio
 
 The configuration for each application is documented in its own page.
 
-- [[Hyprland]]
-- [[Moonlander]]
-- [[Neovim]]
-- [[Tmux]]
-- [[Docker]]
-- [[Nextcloud]]
-- [[Browser]]
-- [[Android]]
+- [Hyprland](Hyprland.md)
+- [Moonlander](Moonlander.md)
+- [Neovim](Neovim.md)
+- [Tmux](Tmux.md)
+- [Nextcloud](Nextcloud.md)
+- [Browser](Browser.md)
 
 ---
 

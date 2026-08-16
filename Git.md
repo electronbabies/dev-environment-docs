@@ -12,7 +12,7 @@ This is not intended to document every Git command. It focuses on commands and w
 
 Use `repos` for the fast local checkpoint and `repos --fetch` when remote state must be refreshed first. The command is intentionally read-only.
 
-Full workflow: [[Projects]]
+Full workflow: [Projects](Projects.md)
 
 ---
 

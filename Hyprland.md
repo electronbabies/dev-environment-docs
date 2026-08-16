@@ -263,8 +263,8 @@ See: [TODO → Hyprland](TODO.md#hyprland)
 
 ## Related
 
-- [[Fedora Desktop]]
-- [[Moonlander]]
-- [[Neovim]]
-- [[Browser]]
-- [[Tmux]]
+- [Fedora Desktop](Fedora%20Desktop.md)
+- [Moonlander](Moonlander.md)
+- [Neovim](Neovim.md)
+- [Browser](Browser.md)
+- [Tmux](Tmux.md)
