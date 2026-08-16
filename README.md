@@ -1,4 +1,3 @@
-
 # Development Environment
 
 This directory documents my development environment.
@@ -15,15 +14,29 @@ Things I try to optimize for:
 - Keeping the system understandable.
 - Choosing simple solutions over clever ones.
 - Documenting anything I'll probably forget.
+
 ## Contents
+
+### Workstation
 
 - [Hardware](Hardware.md)
 - [Fedora Desktop](Fedora%20Desktop.md)
 - [Hyprland](Hyprland.md)
 - [Moonlander](Moonlander.md)
-- [Neovim](Neovim.md)
-- [Tmux](Tmux.md)
-- [Projects](Projects.md)
-- [Nextcloud](Nextcloud.md)
 - [Browser](Browser.md)
+
+### Development
+
+- [Neovim](Neovim.md)
+- [Vim Notes](Vim%20Notes.md)
+- [Tmux](Tmux.md)
+- [Git](Git.md)
+- [CLI Utilities](CLI%20Utilities.md)
+- [Dotfiles](Dotfiles.md)
+- [Projects](Projects.md)
+
+### Infrastructure
+
+- [Nextcloud](Nextcloud.md)
+- [Quick Ubuntu Server Setup](Quick%20Ubuntu%20Server%20Setup.md)
 - [SSH Troubleshooting](SSH%20Troubleshooting.md)
