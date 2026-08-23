@@ -181,12 +181,277 @@ See also: [Vim Notes](Vim%20Notes.md)
 
 ---
 
+### Registers
+
+Vim registers are clipboard/history storage. Yanks, deletes, and changes can all affect registers, so the important thing is knowing where text went and how to retrieve it.
+
+#### Inspecting Registers
+
+Use:
+
+```vim
+:reg
+```
+
+or:
+
+```vim
+:registers
+```
+
+to see the current contents of the registers.
+
+To inspect specific registers:
+
+```vim
+:reg 0
+:reg a
+```
+
+When something I wanted appears to have been overwritten, `:reg` is the first thing to check.
+
+#### Important Registers
+
+| Register | Purpose |
+| --- | --- |
+| `""` | Unnamed/default register; normally used by yank, delete, and change |
+| `"0` | Most recent yank |
+| `"1` | Most recent substantial delete/change |
+| `"2`–`"9` | Older delete history |
+| `"a`–`"z` | Named registers for explicitly storing text |
+| `"_` | Black-hole register; deleted text is discarded |
+| `"+` | System clipboard |
+
+The most important distinction is between the unnamed register and register `0`.
+
+If I yank something:
+
+```vim
+yiw
+```
+
+it becomes the most recent yank and is stored in `"0`.
+
+If I then use:
+
+```vim
+ci[
+```
+
+the changed text affects the unnamed register, but my previous yank is still available in `"0`.
+
+This means I generally do **not** need to use the black-hole register for every delete/change just to preserve something I deliberately yanked.
+
+#### Registers in Normal Mode
+
+The syntax is:
+
+```text
+"<register><command>
+```
+
+Common examples:
+
+| Command | Purpose |
+| --- | --- |
+| `"0p` | Paste the most recent yank |
+| `"ap` | Paste register `a` |
+| `"ayy` | Yank the current line into register `a` |
+| `"adw` | Delete a word into register `a` |
+| `"_dd` | Delete a line into the black-hole register |
+
+The `"` tells Vim that the next character identifies a register.
+
+#### Registers in Visual Mode
+
+Register prefixes work with visual selections too.
+
+After selecting text:
+
+```vim
+"ay
+```
+
+yanks the selection into register `a`.
+
+To paste the most recent yank over a selection:
+
+```vim
+"0p
+```
+
+Normal Visual-mode `p` replaces the selected text and puts the replaced text into the unnamed register.
+
+Capital `P` is useful when repeatedly replacing selections because it replaces the selection without putting the replaced text into the unnamed register.
+
+#### Registers in Insert Mode
+
+Registers can be inserted **without leaving Insert mode**:
+
+```text
+Ctrl-r <register>
+```
+
+Examples:
+
+| Command | Purpose |
+| --- | --- |
+| `Ctrl-r 0` | Insert the most recent yank |
+| `Ctrl-r a` | Insert register `a` |
+| `Ctrl-r +` | Insert the system clipboard |
+
+This is especially useful after a change operation.
+
+For example, if `#0b4f8a` was previously yanked and the cursor is inside:
+
+```text
+bg-[var(--color-primary)]
+```
+
+use:
+
+```text
+ci[ → Ctrl-r 0 → Esc
+```
+
+Result:
+
+```text
+bg-[#0b4f8a]
+```
+
+`ci[` changes the contents of the brackets and enters Insert mode. The removed text can replace the unnamed register, but the previous yank remains in `"0`, so `Ctrl-r 0` retrieves it immediately.
+
+Mental model:
+
+- **What registers contain:** `:reg`
+- **Last thing deliberately yanked:** `"0`
+- **Use a register in Normal/Visual mode:** `"<register>...`
+- **Insert a register while already in Insert mode:** `Ctrl-r <register>`
+- **Keep something around explicitly:** `"a`, `"b`, etc.
+- **Actually throw deleted text away:** `"_`
+
+---
+
 ### Telescope
 
 - Prefer filename search over manually browsing a file tree.
 - `<leader>fd` finds files.
 - `<leader>fg` searches project text.
 - Neo-tree is available, but it is not the preferred navigation model.
+
+---
+
+### Neo-tree File Operations
+
+Neo-tree is not the preferred way to find files, but it is useful for manipulating the project structure.
+
+Press:
+
+```text
+?
+```
+
+inside Neo-tree to show its available keybindings when one is forgotten.
+
+#### Common Operations
+
+| Key | Purpose |
+| --- | --- |
+| `a` | Create a file/directory |
+| `d` | Delete |
+| `r` | Rename |
+| `c` | Copy |
+| `m` | Move |
+| `y` | Copy to Neo-tree clipboard |
+| `x` | Cut to Neo-tree clipboard |
+| `p` | Paste from Neo-tree clipboard |
+| `?` | Show Neo-tree help/keybindings |
+
+#### Creating Files and Directories
+
+Put the cursor on the desired parent directory and press:
+
+```text
+a
+```
+
+Enter a filename to create a file:
+
+```text
+example.vue
+```
+
+Use a trailing `/` to create a directory:
+
+```text
+images/
+```
+
+#### Renaming
+
+Put the cursor on the file or directory and press:
+
+```text
+r
+```
+
+Then enter the new name.
+
+#### Moving Files and Directories
+
+For interactive moves inside a visible project tree, prefer cut/paste over manually entering destination paths.
+
+Given:
+
+```text
+equipment/
+images/
+```
+
+To move `equipment/` into `images/`:
+
+1. Put the cursor on `equipment/`.
+2. Press `x`.
+3. Navigate to `images/`.
+4. Press `p`.
+
+Mental model:
+
+```text
+x → navigate to destination → p
+```
+
+For copying instead:
+
+```text
+y → navigate to destination → p
+```
+
+#### Using `m`
+
+`m` opens a prompt for a destination path.
+
+Be careful about assuming that a relative path such as `./images` is interpreted relative to whatever directory visually appears to be the parent in the tree.
+
+When both locations are visible, the simpler workflow is:
+
+```text
+x → destination → p
+```
+
+This avoids destination-path ambiguity.
+
+#### Quick Reference
+
+| Operation | Workflow |
+| --- | --- |
+| Create | `a` |
+| Rename | `r` |
+| Delete | `d` |
+| Move | `x` → destination → `p` |
+| Copy | `y` → destination → `p` |
+| Help | `?` |
 
 ---
 
