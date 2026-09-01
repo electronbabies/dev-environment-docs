@@ -158,17 +158,17 @@ The Neovim/tmux workflow is now comfortable enough for normal project work. It h
 
 Text objects are now part of the normal editing workflow.
 
-| Command | Purpose |
-| --- | --- |
-| `ci{` | Change inside curly braces |
-| `ca{` | Change around curly braces |
-| `ci(` | Change inside parentheses |
-| `ci[` | Change inside square brackets |
-| `ci"` | Change inside double quotes |
-| `ci'` | Change inside single quotes |
-| `cit` | Change inside an HTML/XML tag |
-| `cat` | Change around an HTML/XML tag |
-| `dat` | Delete around an HTML/XML tag |
+| Command | Purpose                       |
+| ------- | ----------------------------- |
+| `ci{`   | Change inside curly braces    |
+| `ca{`   | Change around curly braces    |
+| `ci(`   | Change inside parentheses     |
+| `ci[`   | Change inside square brackets |
+| `ci"`   | Change inside double quotes   |
+| `ci'`   | Change inside single quotes   |
+| `cit`   | Change inside an HTML/XML tag |
+| `cat`   | Change around an HTML/XML tag |
+| `dat`   | Delete around an HTML/XML tag |
 
 Mental model:
 
