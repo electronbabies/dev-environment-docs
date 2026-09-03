@@ -6,6 +6,12 @@
 - [x] Hardware
 - [x] Fedora Desktop
 - [x] Hyprland
+- [x] Moonlit Night
+- [x] Waybar
+- [x] Kitty
+- [x] Rofi
+- [x] Dunst
+- [x] Yazi
 - [x] Moonlander
 - [x] Neovim
 - [x] Nextcloud

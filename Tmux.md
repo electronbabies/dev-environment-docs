@@ -4,6 +4,57 @@
 
 ---
 
+# Configuration
+
+Configuration file:
+
+```text
+~/.tmux.conf
+```
+
+The current configuration intentionally stays small and focuses on:
+
+- `Ctrl+a` prefix
+- Vim-style pane navigation
+- Vim-style splitting
+- fast config reload
+- Moonlit Night status/pane styling
+
+Reload after editing:
+
+```text
+Ctrl+a r
+```
+
+or:
+
+```bash
+tmux source-file ~/.tmux.conf
+```
+
+---
+
+# Theme
+
+tmux participates in **Moonlit Night**, but the status bar is intentionally visually quiet.
+
+tmux should behave like workspace metadata rather than another large desktop UI layer.
+
+Current visual roles:
+
+- dark/transparent-looking status background
+- muted inactive windows
+- moon-blue active window
+- lantern-gold session emphasis
+- crimson alerts
+- moon-blue active pane border
+- dark inactive pane borders
+
+See [Moonlit Night](Themes/Moonlit%20Night.md).
+
+---
+
+
 # Sessions
 
 ### Create a new session
@@ -129,24 +180,30 @@ Ctrl+a w
 
 ### Split vertically (left/right)
 
+```text
+Ctrl+a v
 ```
-Ctrl+a %
-```
+
+The new pane starts in the current pane's working directory.
 
 ### Split horizontally (top/bottom)
 
+```text
+Ctrl+a s
 ```
-Ctrl+a "
-```
+
+The new pane starts in the current pane's working directory.
 
 ### Move between panes
 
+```text
+Ctrl+a h
+Ctrl+a j
+Ctrl+a k
+Ctrl+a l
 ```
-Ctrl+a ←
-Ctrl+a →
-Ctrl+a ↑
-Ctrl+a ↓
-```
+
+Pane movement follows Vim directions.
 
 ### Cycle through panes
 
@@ -214,6 +271,14 @@ q
 # Miscellaneous
 
 ### Reload tmux configuration
+
+Preferred shortcut:
+
+```text
+Ctrl+a r
+```
+
+Manual command:
 
 ```bash
 tmux source-file ~/.tmux.conf

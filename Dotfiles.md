@@ -4,10 +4,11 @@ My configuration files are stored in a separate Git repository from the document
 
 Repository structure:
 
-- ~/.config/
-- ~/.gitconfig
-- ~/.bashrc
-- ~/.zshrc
+- `~/.config/`
+- `~/.gitconfig`
+- `~/.bashrc`
+- `~/.zshrc`
+- `themes/`
 
 ## Installation
 
@@ -59,6 +60,46 @@ find ~ -maxdepth 3 -xtype l -print
 ```
 
 This was tested when moving the repository from `~/Projects/dotfiles` to `~/code/dotfiles`; rerunning the installer repaired the managed links.
+
+
+## Themes
+
+Desktop themes are version controlled alongside the application configuration.
+
+Current theme:
+
+```text
+~/code/dotfiles/themes/moonlit-night/
+```
+
+Theme assets include:
+
+- wallpapers
+- application-specific colors
+- visual overrides for Hyprland, Waybar, Kitty, tmux, Yazi, Rofi, Neovim, and Dunst
+
+The theme is a visual layer, not a replacement for application configuration.
+
+Keep behavior with the application. Keep appearance with the theme whenever practical.
+
+Applications may consume theme files through:
+
+- symbolic links
+- `source`
+- `include`
+- imports
+- application-specific override files
+
+The repository is intentionally structured to support multiple themes later:
+
+```text
+themes/
+├── moonlit-night/
+├── plain-black/
+└── ...
+```
+
+See [Moonlit Night](Themes/Moonlit%20Night.md).
 
 ## Personal Commands
 

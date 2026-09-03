@@ -27,10 +27,12 @@ The focus is on the software, tools, and configuration that make this workstatio
 - Hypridle
 - Kanshi
 - cliphist
+- Rofi
+- swaybg
 
 #### Terminal
 
-- Ghostty
+- Kitty
 - Zsh
 - tmux
 
@@ -57,6 +59,17 @@ The focus is on the software, tools, and configuration that make this workstatio
 
 ---
 
+### COPR
+
+#### Yazi
+
+```bash
+sudo dnf copr enable lihaohong/yazi
+sudo dnf install yazi
+```
+
+---
+
 ### Flatpak
 
 - Brave
@@ -79,9 +92,15 @@ The focus is on the software, tools, and configuration that make this workstatio
 The configuration for each application is documented in its own page.
 
 - [Hyprland](Hyprland.md)
+- [Moonlit Night](Themes/Moonlit%20Night.md)
+- [Waybar](Waybar.md)
+- [Kitty](Kitty.md)
+- [Rofi](Rofi.md)
+- [Dunst](Dunst.md)
 - [Moonlander](Moonlander.md)
 - [Neovim](Neovim.md)
 - [Tmux](Tmux.md)
+- [Yazi](Yazi.md)
 - [Nextcloud](Nextcloud.md)
 - [Browser](Browser.md)
 
@@ -95,8 +114,11 @@ The configuration for each application is documented in its own page.
 - Install Flatpaks
 - Clone dotfiles
 - Configure Hyprland
+- Restore Moonlit Night theme and wallpaper
 - Restore Moonlander layout
+- Configure Kitty, Waybar, Rofi, and Dunst
 - Configure Neovim
+- Configure Yazi
 - Configure Docker
 - Configure Nextcloud
 - Configure Browser
@@ -107,6 +129,10 @@ The configuration for each application is documented in its own page.
 
 ## Things Future Gary Will Forget
 
+- Kitty is the primary terminal.
+- Yazi is installed through the `lihaohong/yazi` COPR.
+- `swaybg` provides the Hyprland wallpaper.
+- Rofi is the canonical application launcher (`Super + Space`).
 - Signal is installed as a Flatpak.
 - Vimium is disabled on Gmail and YouTube.
 - ChatGPT works well with Vimium by pressing `Esc` then `f`.

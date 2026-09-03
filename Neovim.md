@@ -17,6 +17,7 @@ The configuration files are the implementation. This page documents the design d
 | `~/.config/nvim/init.lua`     | Entry point                |
 | `~/.config/nvim/lua/config/`  | Core LazyVim configuration |
 | `~/.config/nvim/lua/plugins/` | Plugin configuration       |
+| `~/.config/nvim/lua/plugins/colorscheme.lua` | Moonlit Night / Tokyo Night Moon overrides |
 | `lazy-lock.json`              | Locked plugin versions     |
 
 ---
@@ -35,6 +36,46 @@ The configuration files are the implementation. This page documents the design d
 - Learn Vim rather than working around it.
 - Prefer keyboard-first workflows.
 - Keep the configuration simple and understandable.
+
+---
+
+
+## Theme
+
+Neovim uses **Tokyo Night Moon** as the underlying colorscheme engine.
+
+The active colorscheme is:
+
+```text
+tokyonight-moon
+```
+
+Moonlit Night customizations live in:
+
+```text
+~/.config/nvim/lua/plugins/colorscheme.lua
+```
+
+The goal is not to force the desktop palette onto every syntax group. Code needs stronger semantic differentiation than general desktop UI.
+
+Current visual roles include:
+
+- deep navy background
+- soft cool-white normal text
+- violet keywords
+- cyan functions and methods
+- icy blue types
+- green strings
+- lantern-gold numbers and booleans
+- orange constants and special values
+- muted blue-gray comments
+- crimson diagnostics and errors
+
+Readability takes priority over strict theme uniformity.
+
+Tokyo Night continues to provide the underlying highlight-group behavior; Moonlit Night overrides the palette and selected Treesitter/highlight groups.
+
+See [Moonlit Night](Themes/Moonlit%20Night.md).
 
 ---
 

@@ -68,6 +68,41 @@ Not every file needs to exist. Only create configuration files when there is an 
 
 ---
 
+
+## Theme
+
+Yazi participates in the **Moonlit Night** theme through:
+
+```text
+~/.config/yazi/theme.toml
+```
+
+Yazi intentionally uses more functional color variation than Waybar, Hyprland, or tmux.
+
+File management requires quickly distinguishing:
+
+- directories
+- normal files
+- text/source files
+- images
+- media
+- archives
+- selections
+- copied items
+- cut items
+
+The first theme pass used too much blue and made directories, icons, and focus states blend together.
+
+The current rule is:
+
+> Readability and file-state clarity beat strict palette purity.
+
+Directories are intentionally light/neutral rather than another strong blue. File-type colors remain varied where that improves scanning.
+
+See [Moonlit Night](Themes/Moonlit%20Night.md).
+
+---
+
 ## Layout
 
 Yazi's default interface uses three columns:
@@ -430,6 +465,8 @@ The current Yazi setup intentionally stays minimal.
 Configured:
 
 - shared yank state across Yazi instances
+- Moonlit Night theme overrides
+- file-type colors chosen for fast scanning
 
 Not currently necessary:
 
@@ -438,7 +475,7 @@ Not currently necessary:
 - custom multi-pane layouts
 - replacing tmux functionality inside Yazi
 
-Theming can be customized separately without changing the core workflow.
+Theming remains separate from the core workflow. Visual changes should not require changing navigation or file-operation behavior.
 
 ---
 
