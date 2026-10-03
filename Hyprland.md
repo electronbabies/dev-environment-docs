@@ -137,7 +137,7 @@ Uses **Rofi** as the canonical application launcher.
 
 ### File Manager
 
-- `Super + E`
+- `Super + E` — opens **Yazi** in Kitty
 
 ### Close Window
 
@@ -328,22 +328,6 @@ The older Wofi launcher variable remains unnecessary for daily use and can be re
 `swaybg` owns the desktop wallpaper.
 
 Hyprland's built-in default wallpaper is disabled.
-
----
-
-## Things Future Gary Will Forget
-
-- `Alt + Tab` only cycles **floating** windows.
-- Workspace switching is driven by the Moonlander keyboard (F13–F18), not `Super + 1..6`.
-- Gmail, Spotify, Obsidian, and the scratch terminal are **special workspaces**, not normal workspaces.
-- Clipboard history is available with `Super + V`.
-- Screenshot behavior is implemented by a custom script.
-- Applications are automatically assigned to workspaces; don't move them manually unless there's a reason.
-- Kanshi reloads automatically after monitors wake from DPMS.
-- The wallpaper is provided by `swaybg`, not Hyprland itself.
-- Hyprland's default logo / mascot wallpaper is intentionally disabled.
-- `Super + Space` launches Rofi; Wofi is not part of the normal launcher workflow.
-- Moonlit Night window chrome is intentionally subtle. The wallpaper and application themes carry most of the visual identity.
 
 ---
 
