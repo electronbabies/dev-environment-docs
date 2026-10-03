@@ -6,7 +6,7 @@ This page documents my Hyprland desktop environment.
 
 The goal is to recreate the desktop exactly as I expect it to behave after a fresh Fedora installation.
 
-The Hyprland configuration files are the implementation. This page documents the design decisions, workflows, visual integration, and anything Future Gary is likely to forget.
+The Hyprland configuration files are the implementation. This page documents the design decisions, workflows, and visual integration of the desktop environment.
 
 ---
 
@@ -234,25 +234,75 @@ Shortcut:
 
 ## Screenshots
 
-### Area Selection
+Screenshot actions are grouped together on the **Moonlander Nav layer** so the workflow does not depend on remembering modifier combinations.
 
-- `Print`
+### Select and Edit
 
-Uses the custom screenshot script.
+Moonlander key:
 
-### Full Screen
+- `SelectEdit`
 
-- `Shift + Print`
+Behavior:
 
-Saves directly to the Screenshots directory.
+- Select a region with the mouse.
+- Open the capture in the screenshot editor.
+- Edit or annotate before saving or copying.
 
-### Area to Clipboard
+This is the normal workflow when a screenshot needs cropping, annotation, or adjustment.
 
-- `Ctrl + Print`
+### Current Monitor to Clipboard
 
-Copies directly to the clipboard.
+Moonlander key:
 
-Screenshot bindings currently work well enough for normal use. Do not redesign the screenshot workflow unless it becomes actual friction, especially because keyboard-layer interactions can complicate Print Screen combinations.
+- `CurClip`
+
+Behavior:
+
+- Capture the currently focused monitor.
+- Copy the image directly to the clipboard.
+- Do not open the editor.
+- Do not save a file.
+
+Useful when sending a screenshot directly into ChatGPT, Signal, or another application.
+
+### All Monitors to Clipboard
+
+Moonlander key:
+
+- `AllClip`
+
+Behavior:
+
+- Capture the complete three-monitor desktop.
+- Copy the image directly to the clipboard.
+- Do not open the editor.
+- Do not save a file.
+
+### Current Monitor to File
+
+Moonlander key:
+
+- `CurFile`
+
+Behavior:
+
+- Capture the currently focused monitor.
+- Save directly to the Screenshots directory.
+- Do not open the editor.
+
+### All Monitors to File
+
+Moonlander key:
+
+- `AllFile`
+
+Behavior:
+
+- Capture the complete three-monitor desktop.
+- Save directly to the Screenshots directory.
+- Do not open the editor.
+
+The screenshot controls are intentionally kept adjacent on the Moonlander so the available capture modes are visible from the keyboard layout rather than memorized as modifier combinations.
 
 ---
 
