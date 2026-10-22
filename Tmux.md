@@ -1,110 +1,243 @@
 # Tmux Cheat Sheet
 
-> **Leader Key:** `Ctrl+a`
+> **Prefix Key:** `Ctrl+a`
 
 ---
 
-# Configuration
+## Purpose
 
-Configuration file:
+Tmux provides persistent terminal workspaces for software development, Neovim, OpenCode, and other project-specific processes.
+
+The organizational structure is:
+
+**Project → Session → Window → Pane**
+
+The goals are:
+
+- One tmux session per project.
+- Window `0` is always a dedicated interactive zsh shell.
+- Each OpenCode agent or development workstream gets its own window.
+- Existing sessions and running processes are preserved when switching projects.
+- Session and window navigation should be fast and keyboard-driven.
+- Configured workspaces should be automatically created and reused.
+- Configuration and workspace definitions are maintained in dotfiles.
+
+---
+
+## Configuration
+
+### Configuration File
 
 ```text
 ~/.tmux.conf
 ```
 
-The current configuration intentionally stays small and focuses on:
+The current configuration includes:
 
 - `Ctrl+a` prefix
 - Vim-style pane navigation
-- Vim-style splitting
-- new windows inserted after the current window
-- new windows inheriting the current pane's working directory
-- fast config reload
-- Moonlit Night status/pane styling
+- Standard tmux splitting shortcuts
+- Session and window pickers
+- New windows inserted immediately after the current window
+- New windows inheriting the current pane's working directory
+- Fast configuration reload
+- Moonlit Night status and pane styling
 
-Current new-window binding:
+### New Window Binding
 
 ```tmux
 bind c new-window -a -c "#{pane_current_path}"
 ```
 
-This changes the normal `Ctrl+a c` behavior so that a new window:
+When pressing `Ctrl+a c`, tmux:
 
-- is inserted immediately after the current window instead of being appended to the end
-- starts in the current pane's working directory
-- causes later windows to be renumbered automatically
+- Creates a window immediately after the current window.
+- Starts it in the current pane's working directory.
+- Renumbers subsequent windows when automatic renumbering is enabled.
 
-This is useful for keeping related project windows grouped together.
+**Important:** In managed sessions, manually inserting a window can change the numbering of existing windows.
 
-Reload after editing:
+For permanent workstreams, prefer updating the workspace configuration.
+
+### Reload Configuration
+
+Shortcut:
 
 ```text
 Ctrl+a r
 ```
 
-or:
+Or from a shell:
 
 ```bash
 tmux source-file ~/.tmux.conf
 ```
 
+Reloading does not terminate existing processes.
+
 ---
 
-# Theme
+## Theme
 
-tmux participates in **Moonlit Night**, but the status bar is intentionally visually quiet.
+Tmux participates in **Moonlit Night**, but the status bar is intentionally visually quiet.
 
-tmux should behave like workspace metadata rather than another large desktop UI layer.
+Tmux should behave like workspace metadata rather than another large desktop UI layer.
 
 Current visual roles:
 
-- dark/transparent-looking status background
-- muted inactive windows
-- moon-blue active window
-- lantern-gold session emphasis
-- crimson alerts
-- moon-blue active pane border
-- dark inactive pane borders
+- Dark/transparent-looking status background
+- Muted inactive windows
+- Moon-blue active window
+- Lantern-gold session emphasis
+- Crimson alerts
+- Moon-blue active pane border
+- Dark inactive pane borders
 
-See [Moonlit Night](<Themes/Moonlit Night.md>).
+See the Moonlit Night documentation.
 
 ---
 
-# Sessions
+## Keyboard Shortcuts
 
-### Create a new session
+### Session Navigation
+
+| Shortcut | Action |
+|---|---|
+| `Ctrl+a s` | Interactive session picker |
+| `Ctrl+a (` | Previous session |
+| `Ctrl+a )` | Next session |
+| `Ctrl+a d` | Detach from tmux |
+
+### Window Navigation
+
+| Shortcut | Action |
+|---|---|
+| `Ctrl+a w` | Interactive window picker |
+| `Ctrl+a 0–9` | Jump directly to numbered window |
+| `Ctrl+a n` | Next window |
+| `Ctrl+a p` | Previous window |
+| `Ctrl+a l` | Previously active window |
+| `Ctrl+a c` | Create a new window |
+| `Ctrl+a ,` | Rename current window |
+| `Ctrl+a &` | Kill current window (confirmation) |
+
+### Pane Management
+
+| Shortcut | Action |
+|---|---|
+| `Ctrl+a %` | Split vertically (left/right) |
+| `Ctrl+a "` | Split horizontally (top/bottom) |
+| `Ctrl+a h` | Move to left pane |
+| `Ctrl+a j` | Move to lower pane |
+| `Ctrl+a k` | Move to upper pane |
+| `Ctrl+a l` | Move to right pane |
+| `Ctrl+a o` | Cycle through panes |
+| `Ctrl+a x` | Kill current pane (confirmation) |
+
+**Note:** `Ctrl+a l` may be configured for right-pane navigation instead of the tmux default of switching to the previously active window. Check `tmux list-keys` for the effective binding.
+
+### Other Shortcuts
+
+| Shortcut | Action |
+|---|---|
+| `Ctrl+a [` | Enter copy mode |
+| `Ctrl+a :` | Open tmux command prompt |
+| `Ctrl+a r` | Reload tmux configuration |
+| `Ctrl+a ?` | Show key bindings |
+
+Press the prefix first, release it, then press the next key.
+
+---
+
+## Sessions
+
+A session represents one project workspace.
+
+Each project should have its own session rather than mixing unrelated projects into a single session.
+
+### Create a Session
 
 ```bash
-tmux new -s session-name
+tmux new-session -s session-name
 ```
 
 Example:
 
 ```bash
-tmux new -s ocr-japanese
+tmux new-session -s castcue
 ```
 
-### List sessions
+### List Sessions
+
+```bash
+tmux list-sessions
+```
+
+Short form:
 
 ```bash
 tmux ls
 ```
 
-### Attach to a session
+### Interactive Session Picker
 
-```bash
-tmux attach -t session-name
+```text
+Ctrl+a s
 ```
 
-Example:
+Opens an interactive list of sessions.
 
-```bash
-tmux attach -t ocr-japanese
+Use the arrow keys to navigate and `Enter` to select.
+
+This is the preferred way to move between project workspaces.
+
+The binding should be:
+
+```tmux
+bind-key s choose-tree -s
 ```
 
-### Create a grouped session
+### Switch Sessions
 
-Create a new session that shares the same windows and panes as an existing session:
+From inside tmux:
+
+```bash
+tmux switch-client -t vim-tutor
+```
+
+From the tmux command prompt (`Ctrl+a :`):
+
+```text
+switch-client -t vim-tutor
+```
+
+### Attach to a Session
+
+From outside tmux:
+
+```bash
+tmux attach-session -t vim-tutor
+```
+
+### Detach from a Session
+
+```text
+Ctrl+a d
+```
+
+Detaching leaves running processes intact.
+
+### Kill a Session
+
+```bash
+tmux kill-session -t session-name
+```
+
+**Warning:** Killing a session can terminate its windows and processes. Windows shared with other sessions may remain alive.
+
+### Create a Grouped Session
+
+Grouped sessions share the same windows and panes but allow each attached client to independently select its active window.
 
 ```bash
 tmux new-session -t existing-session -s new-session
@@ -116,25 +249,28 @@ Example:
 tmux new-session -t sugacoded -s sugacoded-agent
 ```
 
-The sessions share windows and panes, but each client can independently select which window it is viewing. This is useful for working in the same tmux workspace from multiple terminals without both terminals being forced onto the same window.
+Grouped sessions are useful when accessing the same workspace from multiple terminals.
 
-### Detach from the current session
-
-```text
-Ctrl+a d
-```
-
-### Kill a session
-
-```bash
-tmux kill-session -t session-name
-```
+They are not necessary for normal project organization.
 
 ---
 
-# Windows
+## Windows
 
-### Create a new window
+A window represents a development workstream, OpenCode agent, editor, server, or supporting terminal.
+
+### Window Numbering Convention
+
+For managed project sessions:
+
+- `0`: Dedicated zsh shell
+- `1`: First OpenCode agent or workstream
+- `2`: Second agent or workstream
+- `3–9`: Additional agents or tools
+
+Window `0` should remain available for general project navigation and commands.
+
+### Create a Window
 
 ```text
 Ctrl+a c
@@ -142,97 +278,22 @@ Ctrl+a c
 
 With the current configuration, the new window:
 
-- is inserted immediately after the current window
-- starts in the current pane's working directory
+- Appears immediately after the current window.
+- Inherits the current pane's working directory.
 
-For example, starting with:
-
-```text
-1: API
-2: CastCue
-3: Shell
-```
-
-Creating a new window while viewing window 1 produces:
+### Interactive Window Picker
 
 ```text
-1: API
-2: New Window
-3: CastCue
-4: Shell
+Ctrl+a w
 ```
 
-This makes it easy to keep related windows grouped together.
+Shows an interactive window tree.
 
-### Insert a window manually after the current window
+Use the arrow keys to select a window and `Enter` to switch.
 
-Open the tmux command prompt:
+Unlike direct numbered shortcuts, the picker can display windows across sessions.
 
-```text
-Ctrl+a :
-```
-
-Then run:
-
-```text
-new-window -a
-```
-
-To also inherit the current pane's working directory:
-
-```text
-new-window -a -c "#{pane_current_path}"
-```
-
-### Create, insert, name, and set the directory in one command
-
-Open the tmux command prompt:
-
-```text
-Ctrl+a :
-```
-
-Example:
-
-```text
-new-window -a -n api-captures -c ~/code/langlife/langlife-api-captures
-```
-
-This creates a window immediately after the current one named `api-captures` and starts it in the specified directory.
-
-### Rename the current window
-
-```text
-Ctrl+a ,
-```
-
-### Close the current window
-
-Type:
-
-```bash
-exit
-```
-
-or press:
-
-```text
-Ctrl+d
-```
-
-### Next window
-
-```text
-Ctrl+a n
-```
-
-### Previous window
-
-```text
-Ctrl+a p
-```
-
-### Jump directly to a window
+### Jump to a Window
 
 ```text
 Ctrl+a 0
@@ -242,33 +303,90 @@ Ctrl+a 2
 Ctrl+a 9
 ```
 
-### List windows
+Direct number shortcuts are the preferred method for frequently used windows.
+
+### Next and Previous Windows
 
 ```text
-Ctrl+a w
+Ctrl+a n
+Ctrl+a p
 ```
+
+### Rename a Window
+
+```text
+Ctrl+a ,
+```
+
+### Create a Named Window
+
+Open the tmux command prompt:
+
+```text
+Ctrl+a :
+```
+
+Then enter:
+
+```tmux
+new-window -a -n api -c ~/code/langlife/api
+```
+
+This creates a window named `api`, inserts it after the current window, and sets its working directory.
+
+### Close a Window
+
+Exit the shell:
+
+```bash
+exit
+```
+
+Or:
+
+```text
+Ctrl+d
+```
+
+If the window's only pane exits, the window normally closes.
+
+Alternatively:
+
+```text
+Ctrl+a &
+```
+
+This requests confirmation before killing the window.
 
 ---
 
-# Panes
+## Panes
 
-### Split vertically (left/right)
+Panes provide multiple terminal views inside a single window.
 
-```text
-Ctrl+a v
-```
+They are useful for short-lived supporting terminals, log monitoring, and commands that should remain visible alongside an editor.
 
-The new pane starts in the current pane's working directory.
+### Split Vertically
 
-### Split horizontally (top/bottom)
+Creates left and right panes:
 
 ```text
-Ctrl+a s
+Ctrl+a %
 ```
 
-The new pane starts in the current pane's working directory.
+The `%` character is normally typed using `Shift+5`.
 
-### Move between panes
+### Split Horizontally
+
+Creates top and bottom panes:
+
+```text
+Ctrl+a "
+```
+
+The `"` character is normally typed using `Shift+'`.
+
+### Navigate Between Panes
 
 ```text
 Ctrl+a h
@@ -277,245 +395,414 @@ Ctrl+a k
 Ctrl+a l
 ```
 
-Pane movement follows Vim directions.
+Navigation follows Vim directions:
 
-### Cycle through panes
+| Key | Direction |
+|---|---|
+| `h` | Left |
+| `j` | Down |
+| `k` | Up |
+| `l` | Right |
+
+### Cycle Through Panes
 
 ```text
 Ctrl+a o
 ```
 
-### Resize a pane
+### Resize a Pane
 
-Hold:
-
-```text
-Ctrl+a
-```
-
-Then press one of:
+Use the tmux command prompt:
 
 ```text
-Ctrl+←
-Ctrl+→
-Ctrl+↑
-Ctrl+↓
+Ctrl+a :
 ```
 
-*(Depending on your configuration, you may instead need to enter resize mode or use `Ctrl+a : resize-pane` commands.)*
+Example commands:
 
-### Close the current pane
+```tmux
+resize-pane -L 5
+resize-pane -R 5
+resize-pane -U 5
+resize-pane -D 5
+```
 
-Type:
+These resize the active pane by five cells in the specified direction.
+
+Additional resize shortcuts can be configured if needed.
+
+### Close a Pane
 
 ```bash
 exit
 ```
 
-or press:
+Or:
 
 ```text
 Ctrl+d
 ```
 
----
-
-# Copy Mode
-
-Enter copy mode:
+To forcibly close a pane:
 
 ```text
-Ctrl+a [
-```
-
-Navigation:
-
-- Arrow Keys
-- Page Up / Page Down
-- Vim keys (if configured)
-
-Exit:
-
-```text
-q
+Ctrl+a x
 ```
 
 ---
 
-# Miscellaneous
+## Workspace Manager
 
-### Reload tmux configuration
+The custom workspace manager provides declarative, reusable tmux project layouts.
 
-Preferred shortcut:
+It creates missing sessions and windows without restarting existing ones.
+
+### Files
 
 ```text
-Ctrl+a r
+~/code/dotfiles/tmux/
+├── workspaces
+└── workspaces.conf
 ```
 
-Manual command:
+Launcher symlink:
+
+```text
+~/.local/bin/workspaces
+    → ~/code/dotfiles/tmux/workspaces
+```
+
+The launcher resolves its symlink before locating the configuration file.
+
+### Configuration
+
+Edit:
 
 ```bash
-tmux source-file ~/.tmux.conf
+nvim ~/code/dotfiles/tmux/workspaces.conf
 ```
 
-### Show all key bindings
+The configuration defines:
+
+- Session names
+- Window numbers
+- Window names
+- Working directories
+- Optional startup commands
+
+Each permanent workstream should be defined here.
+
+### Available Commands
+
+| Command | Action |
+|---|---|
+| `workspaces start` | Create missing workspaces and switch or attach |
+| `workspaces sync` | Create missing sessions/windows without switching |
+| `workspaces open vim-tutor` | Switch or attach to Vim Tutor |
+| `workspaces list` | Show running sessions and windows |
+
+### Start All Configured Workspaces
 
 ```bash
-tmux list-keys
+workspaces start
 ```
 
-### Display current sessions
+### Synchronize Without Switching
 
 ```bash
-tmux ls
+workspaces sync
 ```
 
-### Display current windows
+This creates configured sessions and missing windows while leaving the current tmux client in its existing session.
 
-```text
-Ctrl+a w
+### Open a Project
+
+```bash
+workspaces open vim-tutor
 ```
+
+If the session already exists, the launcher reuses it.
+
+If it does not exist, the launcher creates the configured session and windows.
+
+### List Workspaces
+
+```bash
+workspaces list
+```
+
+### Idempotent Behavior
+
+The launcher is designed to be safe to run repeatedly.
+
+It should:
+
+- Create missing sessions.
+- Create missing configured windows.
+- Preserve existing sessions.
+- Preserve existing windows.
+- Leave running OpenCode processes untouched.
+- Avoid launching duplicate OpenCode processes in existing windows.
+
+**Important:** Existing windows are not automatically moved or renamed. Window numbers and names should be kept consistent with the configuration.
+
+### Startup Commands
+
+A configured window can automatically start a command such as:
+
+```bash
+opencode
+```
+
+Commands run when the corresponding window is initially created.
+
+Existing running commands are not restarted simply because the workspace launcher runs again.
+
+### Shell Window
+
+Every project session reserves window `0` for an interactive zsh shell.
+
+This provides a permanent command prompt for:
+
+- Git operations
+- File navigation
+- Builds and tests
+- Project-specific commands
+- Running temporary utilities
+
+### Reboot and Process Persistence
+
+Tmux keeps processes alive when clients detach, provided the tmux server remains running.
+
+It does not automatically preserve processes through a reboot.
+
+The workspace manager can recreate windows and restart configured programs after a reboot.
+
+However, restoring an individual OpenCode conversation depends on OpenCode's own session persistence and resume capabilities.
 
 ---
 
-# Typical Project Layout
+## Project Workspace Organization
 
-Use one tmux session as the workspace for a project or related group of repositories.
+Each project gets one tmux session.
 
-For a multi-repository application such as LangLife, separate major components into clearly named windows.
+Each major development workstream or OpenCode agent gets its own window.
 
-A traditional layout might be:
-
-```text
-Window 1: API
-Window 2: UI
-Window 3: Android
-Window 4: Shell / logs / supporting work
-```
-
-For agent-heavy development, group related implementation lanes together:
+### Vim Tutor Example
 
 ```text
-Window 1: LangLife API / coordinator
-Window 2: LangLife API / captures
-Window 3: LangLife API / gaps
-Window 4: LangLife API / study
-Window 5: LangLife API / workers
-Window 6: CastCue / OpenCode
-Window 7: API shell
-Window 8: CastCue shell
+vim-tutor
+├── 0: shell          (zsh)
+├── 1: product        (OpenCode)
+├── 2: plugin         (OpenCode)
+├── 3: curriculum     (OpenCode)
+├── 4: backend        (OpenCode)
+└── 5: dashboard      (OpenCode)
 ```
 
-Because `Ctrl+a c` inserts a new window immediately after the current one, additional windows can be added directly beside the project or task they belong to rather than always appearing at the end of the session.
+### Other Projects
 
-The exact numbering is less important than giving windows useful names and keeping related work grouped together.
+A larger working environment might contain:
 
-Direct window switching with `Ctrl+a` plus a number is preferred over repeatedly cycling with `n` and `p`.
+```text
+tmux
+├── vim-tutor
+│   ├── 0: shell
+│   ├── 1: product
+│   ├── 2: plugin
+│   ├── 3: curriculum
+│   ├── 4: backend
+│   └── 5: dashboard
+│
+├── castcue
+│   ├── 0: shell
+│   ├── 1: android
+│   └── 2: marketing
+│
+├── langlife
+│   ├── 0: shell
+│   ├── 1: api
+│   ├── 2: android
+│   └── 3: marketing
+│
+└── cooking
+    ├── 0: shell
+    ├── 1: api
+    └── 2: web
+```
 
-For a simpler project, one Neovim window plus supporting shell/server windows may be enough.
+These are illustrative layouts rather than mandatory configurations.
+
+### Navigation
+
+Use:
+
+```text
+Ctrl+a s
+```
+
+To switch projects.
+
+Use:
+
+```text
+Ctrl+a 0–9
+```
+
+To switch workstreams inside the selected project.
+
+### Design Principles
+
+- Avoid creating a separate session for every OpenCode agent.
+- Avoid mixing unrelated projects into one session.
+- Keep window `0` available for general shell use.
+- Name windows by responsibility rather than arbitrary identifiers.
+- Prefer stable window assignments for established workstreams.
+- Use temporary panes for supporting commands.
+- Avoid unnecessary window proliferation.
+
+The goal is to keep a large number of development processes manageable without requiring increasingly complex keyboard shortcuts.
 
 ---
 
-# Agent / Worktree Workflow
+## OpenCode Workflow
 
-For parallel AI development, use one tmux window per Git worktree / implementation lane.
+Each OpenCode agent should run in a dedicated tmux window.
 
-Example LangLife layout:
+This makes it possible to:
+
+- Keep multiple agents active simultaneously.
+- Switch between agents without interrupting them.
+- Organize agents by project.
+- Preserve running sessions while detaching.
+- Return to an agent without navigating through unrelated terminals.
+
+### Example
 
 ```text
-~/code/langlife/api
-    main
-    coordinator / integration lane
-
-~/code/langlife/langlife-api-captures
-    api-03/captures
-    Capture/OCR lane
-
-~/code/langlife/langlife-api-gaps
-    api-03/gaps
-    CandidateGap/PersistentGap lane
-
-~/code/langlife/langlife-api-study
-    api-03/study
-    Sentence/Study/Attempt lane
-
-~/code/langlife/langlife-api-workers
-    api-03/workers
-    Provider/worker lane
+vim-tutor
+├── 0: shell
+├── 1: architecture
+├── 2: plugin
+├── 3: curriculum
+├── 4: backend
+└── 5: dashboard
 ```
 
-Each OpenCode session should run from the directory belonging to its lane.
+Each window should have an explicit responsibility.
 
-This keeps:
+### Working Directories
 
-- working-tree changes isolated
-- branch changes isolated
-- agent context focused
-- merges easier to review
-- bad implementations easier to discard independently
+An OpenCode window should start in the appropriate repository or worktree directory.
 
-The main worktree should remain the integration/coordinator lane rather than being used for feature implementation.
+Examples:
+
+```text
+~/code/vim-tutor
+~/code/vim-tutor/plugin
+~/code/vim-tutor/api
+~/code/vim-tutor/web
+```
+
+Actual directory structure depends on the project architecture.
+
+Directories configured before a repository exists may initially point to a common parent directory.
+
+Update the configuration after the repository structure is established.
+
+### Agents Do Not Always Need Worktrees
+
+Separate OpenCode windows and separate Git worktrees solve different problems.
+
+An OpenCode window isolates the terminal process and conversation.
+
+A Git worktree isolates the checked-out branch and working files.
+
+Research, planning, architecture, documentation, and curriculum-design agents may not require dedicated worktrees.
+
+Parallel implementation agents editing overlapping areas of the same repository often benefit from worktree isolation.
+
+Do not create worktrees unnecessarily.
 
 ---
 
-# Git Worktrees
+## Git Worktrees
 
-### List worktrees
+Git worktrees allow multiple branches of one repository to be checked out simultaneously.
+
+They are useful when independent agents need to modify the same codebase without interfering with each other's working files.
+
+### List Worktrees
 
 ```bash
 git worktree list
 ```
 
-Example:
+### Create a Worktree
 
-```text
-/home/electronbabies/code/langlife/api                    59eb7a2 [main]
-/home/electronbabies/code/langlife/langlife-api-captures 59eb7a2 [api-03/captures]
-/home/electronbabies/code/langlife/langlife-api-gaps     59eb7a2 [api-03/gaps]
-/home/electronbabies/code/langlife/langlife-api-study    59eb7a2 [api-03/study]
-/home/electronbabies/code/langlife/langlife-api-workers  59eb7a2 [api-03/workers]
-```
-
-### Add a worktree with a new branch
+From the primary repository:
 
 ```bash
-git worktree add ../langlife-api-captures -b api-03/captures
+git worktree add ../feature-captures -b feature/captures
 ```
 
-### Merge a completed lane into main
+This creates a new directory with a new branch.
 
-From the main worktree:
+### Example Layout
+
+```text
+~/code/langlife/
+├── api/
+├── langlife-api-captures/
+├── langlife-api-gaps/
+├── langlife-api-study/
+└── langlife-api-workers/
+```
+
+These represent possible independent implementation lanes.
+
+They do not need separate tmux sessions.
+
+All can belong to the same `langlife` tmux session, using different windows.
+
+### Merge a Completed Branch
+
+From the primary worktree:
 
 ```bash
 cd ~/code/langlife/api
-git merge api-03/captures
+git merge feature/captures
 ```
 
-Repeat for other completed lanes as appropriate.
+Resolve conflicts, run verification, and confirm the result before removing the feature worktree.
 
-### Remove a finished worktree
+### Remove a Worktree
 
 ```bash
-git worktree remove ../langlife-api-captures
+git worktree remove ../feature-captures
 ```
 
-A worktree is another checked-out working directory of the same Git repository.
+Git may refuse removal if the worktree contains uncommitted changes.
+
+### Worktree Isolation
 
 Each worktree has its own:
 
-- branch
-- working tree
-- staging area
-- uncommitted changes
+- Checked-out branch
+- Working files
+- Staging area
+- Uncommitted changes
 
-All worktrees share the same Git object database and repository history.
+Worktrees share the same repository object database and commit history.
 
-Changes in one worktree do not modify another worktree until commits are explicitly merged, rebased, or cherry-picked.
+Changes in one worktree do not directly alter another worktree's checked-out files.
 
-A useful mental model is:
+Committed changes must still be integrated through Git operations such as merging, rebasing, or cherry-picking.
+
+A useful mental model:
 
 ```text
-Same Git repository
+Same repository
 Different desks
 Different branches
 Different working files
@@ -523,14 +810,224 @@ Different working files
 
 ---
 
-# Daily Workflow
+## Copy Mode
 
-1. Attach to the project tmux session.
-2. Start any required services.
-3. Move to the relevant project or worktree window.
-4. Develop normally.
-5. Add related windows beside the current one with `Ctrl+a c`.
-6. Keep separate OpenCode agents in separate worktree windows.
-7. Use the main worktree/window for review and integration.
-8. Detach with `Ctrl+a d` instead of closing the terminal.
-9. Reattach later and continue exactly where you left off.
+### Enter Copy Mode
+
+```text
+Ctrl+a [
+```
+
+### Navigation
+
+Depending on tmux configuration:
+
+- Arrow keys
+- Page Up / Page Down
+- Vim navigation keys
+
+### Exit Copy Mode
+
+```text
+q
+```
+
+With Vim copy-mode bindings enabled, `q` exits copy mode.
+
+---
+
+## Useful Commands
+
+### Show All Key Bindings
+
+```bash
+tmux list-keys
+```
+
+### Check a Specific Binding
+
+For example, to inspect the prefix-table binding for `s`:
+
+```bash
+tmux list-keys -T prefix s
+```
+
+### List Sessions
+
+```bash
+tmux list-sessions
+```
+
+### List Windows in the Current Session
+
+```bash
+tmux list-windows
+```
+
+### List Panes
+
+```bash
+tmux list-panes
+```
+
+### Show the Current Session Name
+
+```bash
+tmux display-message -p '#S'
+```
+
+### Show the Current Window Number and Name
+
+```bash
+tmux display-message -p '#I:#W'
+```
+
+### Show the Current Pane Directory
+
+```bash
+tmux display-message -p '#{pane_current_path}'
+```
+
+### Reload Configuration
+
+```bash
+tmux source-file ~/.tmux.conf
+```
+
+---
+
+## Troubleshooting
+
+### Session Picker Splits the Window Instead
+
+A custom binding may be overriding the standard `s` key.
+
+Inspect the effective binding:
+
+```bash
+tmux list-keys -T prefix s
+```
+
+Restore the session picker:
+
+```bash
+tmux bind-key s choose-tree -s
+```
+
+For a permanent fix, update the tracked tmux configuration and reload it.
+
+### Window Picker Is Missing
+
+Restore the default window tree:
+
+```bash
+tmux bind-key w choose-tree -w
+```
+
+### Workspace Configuration Cannot Be Found
+
+The workspace launcher must resolve its actual path when invoked through a symlink.
+
+The script uses:
+
+```bash
+SCRIPT_DIR="$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
+CONFIG="${WORKSPACES_CONFIG:-$SCRIPT_DIR/workspaces.conf}"
+```
+
+This ensures the configuration is loaded from the dotfiles directory instead of `~/.local/bin`.
+
+### OpenCode Is Not Running in a Window
+
+Inspect the window and its configured working directory.
+
+If the window already existed when the workspace manager ran, it will not automatically relaunch OpenCode.
+
+This behavior prevents existing processes from being interrupted.
+
+Start OpenCode manually if needed:
+
+```bash
+opencode
+```
+
+### Previous Terminal Appears to Have Disappeared
+
+Switching tmux sessions changes which workspace the client displays.
+
+The previous session normally continues running.
+
+Open the session picker:
+
+```text
+Ctrl+a s
+```
+
+Or list sessions:
+
+```bash
+tmux list-sessions
+```
+
+Then switch back:
+
+```bash
+tmux switch-client -t session-name
+```
+
+### Too Many Windows
+
+Prefer moving unrelated workstreams into their corresponding project sessions.
+
+Do not create additional sessions merely because one session becomes crowded.
+
+Review whether inactive or completed agents still need dedicated windows.
+
+For normal navigation, aim to keep frequently used windows within the `0–9` range.
+
+---
+
+## Daily Workflow
+
+1. Open Kitty and attach to tmux.
+2. Use `workspaces sync` if workspace configuration has changed.
+3. Select the desired project with `Ctrl+a s`.
+4. Switch to the relevant OpenCode agent using `Ctrl+a` plus its window number.
+5. Use window `0` for general shell commands.
+6. Use panes for temporary supporting terminals or log monitoring.
+7. Keep independent implementation agents isolated through worktrees when necessary.
+8. Review, test, and integrate completed implementation work.
+9. Detach using `Ctrl+a d` instead of terminating tmux.
+10. Reattach later and continue working with existing processes.
+
+---
+
+## Quick Reference
+
+| Shortcut / Command | Action |
+|---|---|
+| `Ctrl+a s` | Select project/session |
+| `Ctrl+a w` | Select window |
+| `Ctrl+a 0–9` | Jump to window |
+| `Ctrl+a n` | Next window |
+| `Ctrl+a p` | Previous window |
+| `Ctrl+a c` | New window |
+| `Ctrl+a ,` | Rename window |
+| `Ctrl+a %` | Split left/right |
+| `Ctrl+a "` | Split top/bottom |
+| `Ctrl+a h/j/k/l` | Navigate panes |
+| `Ctrl+a d` | Detach |
+| `Ctrl+a [` | Copy mode |
+| `Ctrl+a r` | Reload configuration |
+| `workspaces start` | Create/reuse configured workspaces |
+| `workspaces sync` | Synchronize without switching |
+| `workspaces open vim-tutor` | Open Vim Tutor workspace |
+| `workspaces list` | Show workspaces |
+
+---
+
+## Core Principle
+
+**One project, one session. One workstream, one window. One permanent shell at window 0.**
+
+Keep the workspace predictable, preserve running processes, and use tmux to organize development rather than adding unnecessary complexity.

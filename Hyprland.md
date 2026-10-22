@@ -1,3 +1,4 @@
+
 # Hyprland
 
 ## Purpose
@@ -155,6 +156,18 @@ Uses **Rofi** as the canonical application launcher.
 
 - `Super + V`
 
+### Turn Monitors Off
+
+- `Super + Shift + M`
+
+Waits one second, then turns off all monitors using DPMS. The PC stays running; this does not suspend the computer or lock the session.
+
+Current Hyprland binding:
+
+```ini
+bind = SUPER SHIFT, M, exec, sleep 1 && hyprctl dispatch dpms off
+```
+
 ---
 
 ## Window Management
@@ -192,7 +205,7 @@ A floating tmux terminal that is always available regardless of the current work
 
 Shortcut:
 
-- `Super + \``
+- `Super + Backtick`
 
 ---
 
@@ -302,7 +315,43 @@ Behavior:
 - Save directly to the Screenshots directory.
 - Do not open the editor.
 
-The screenshot controls are intentionally kept adjacent on the Moonlander so the available capture modes are visible from the keyboard layout rather than memorized as modifier combinations.
+### Android Phone to Clipboard
+
+Hyprland shortcut:
+
+- `Super + Shift + P`
+
+Behavior:
+
+- Capture the connected Android phone's screen using ADB.
+- Copy the screenshot directly to the Fedora clipboard.
+- Do not open the screenshot editor.
+- Do not save a file.
+- Paste the image into ChatGPT, Signal, or another application using `Ctrl + V`.
+
+Current Hyprland binding:
+
+```ini
+bind = SUPER SHIFT, P, exec, bash -lc 'adb exec-out screencap -p | wl-copy'
+```
+
+Equivalent terminal command:
+
+```bash
+adb exec-out screencap -p | wl-copy
+```
+
+Requirements:
+
+- Android Debug Bridge (`adb`) must be installed.
+- The phone must be connected through USB debugging or wireless ADB.
+- The phone must authorize the computer for debugging.
+- Verify the connection with `adb devices`.
+- If multiple devices are connected, specify the intended device using `adb -s <device-serial>`.
+
+This shortcut captures the Android screen directly without requiring scrcpy.
+
+The screenshot controls are intentionally kept adjacent on the Moonlander so the available capture modes are visible from the keyboard layout rather than memorized as modifier combinations. The Android screenshot currently uses a separate Hyprland shortcut.
 
 ---
 
@@ -339,13 +388,13 @@ The clipboard picker is displayed through Rofi and therefore inherits the Moonli
 
 The following applications automatically open on predefined workspaces:
 
-| Application | Workspace |
-| --- | ---: |
-| Brave | 3 |
-| Steam Library | 6 |
-| Steam Games | 4 |
-| Slack | 5 |
-| Signal | 5 |
+| Application   | Workspace |
+| ------------- | --------: |
+| Brave         |         3 |
+| Steam Library |         6 |
+| Steam Games   |         4 |
+| Slack         |         5 |
+| Signal        |         5 |
 
 ---
 
